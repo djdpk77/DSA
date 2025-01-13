@@ -23,6 +23,7 @@ class Solution {
 
         return res; */
 
+        //Optimal-approach - O(n)
         int[] res = new int[n + 1];
         res[0] = 0;
         for(int i=1;i<=n;i++){
