@@ -15,7 +15,7 @@ import java.util.Map;
 class Solution {
     public List<Integer> findAnagrams(String s, String p) {
         //Sliding window approach with hashmap
-        List<Integer> result = new ArrayList<>();
+        /* List<Integer> result = new ArrayList<>();
         if(s.length() < p.length()) 
             return result;
 
@@ -50,7 +50,42 @@ class Solution {
             }
         }
 
+        return result; */
+
+        //Optimized Sliding window approach with single array
+        List<Integer> result = new ArrayList<>();
+        if(s.length() < p.length()) 
+            return result;
+        
+        int[] pcount = new int[26];
+        int[] scount = new int[26];
+
+        for(int i = 0; i < p.length(); i++){
+            pcount[p.charAt(i) - 'a']++;
+            scount[s.charAt(i) - 'a']++;
+        }
+
+        for(int i = 0; i <= s.length() - p.length(); i++){
+            if(isAnagram(pcount,scount)){
+                result.add(i);
+            }
+
+            if(i + p.length() < s.length()){
+                scount[s.charAt(i) - 'a']--;                 //Remove the old character going out of window
+                scount[s.charAt(i + p.length()) - 'a']++;   //Add new character coming into window
+            }
+        }
+
         return result;
+    }
+
+    public boolean isAnagram(int[] pCount, int[] sCount){
+        for(int i = 0; i < 26; i++){
+            if(pCount[i] != sCount[i]){
+                return false;
+            }
+        }
+        return true;
     }
 }
 // @lc code=end
